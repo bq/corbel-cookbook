@@ -1,0 +1,60 @@
+---
+driver:
+  name: vagrant
+platforms:
+  -
+    name: centos-7.0
+provisioner:
+  name: chef_solo
+suites:
+  -
+    attributes:
+      corbel:
+        iam:
+            type: "tarball"
+            artifact_id: "iam"
+            group_id: "com.bq.oss.corbel"
+            version: "1.20.0-SNAPSHOT"
+            classifier: "bin"
+            deploy_to: "/opt/corbel"
+      maven_deploy:
+        repositories:
+          repository: "https://oss.sonatype.org/content/repositories/snapshots"
+      java:
+        install_flavor: 'oracle'
+        oracle:
+          accept_oracle_download_terms: true
+        jdk_version: '8'
+
+    name: iam
+    run_list:
+      - "recipe[corbel::iam]"
+  -
+    attributes:
+      corbel:
+        webfs:
+          config:
+            test1: "test1"
+      maven_deploy:
+        repositories:
+          repository: "https://oss.sonatype.org/content/repositories/snapshots"
+    name: webfs-with-conf
+    run_list:
+      - "recipe[corbel::webfs]"
+  -
+    attributes:
+      corbel:
+        resources:
+          version: "1.20.0-SNAPSHOT"
+          plugins:
+            resmi:
+              type: "tarball"
+              artifact_id: "resmi"
+              group_id: "com.bq.oss.corbel"
+              version: "LATEST"
+      maven_deploy:
+        repositories:
+          repository: "https://oss.sonatype.org/content/repositories/snapshots"
+    name: resources-with-plugin
+    run_list:
+      - "recipe[corbel::resources]"
