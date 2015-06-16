@@ -1,7 +1,7 @@
 class Chef
 	module Corbel
 		# A shortcut to a customer
-    def install(name)
+    def corbel_install(name)
 			include_recipe "supervisor"
 			include_recipe "java"
 
@@ -66,7 +66,7 @@ class Chef
 			end
     end
 
-    def configure(name)
+    def corbel_configure(name)
 			app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
@@ -104,7 +104,7 @@ class Chef
       end
     end
 
-    def run_scripts(name)
+    def corbel_run_scripts(name)
       scripts = (node[:corbel][name][:scripts] || [])
       script_paths = Array.new
 

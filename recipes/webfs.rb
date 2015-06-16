@@ -1,3 +1,3 @@
-install('webfs')
-configure('webfs')
-run_scripts('webfs')
+corbel_install('webfs')
+corbel_configure('webfs')
+corbel_run_scripts('webfs')
