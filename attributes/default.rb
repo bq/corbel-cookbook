@@ -20,6 +20,13 @@ default[:corbel][:webfs][:version] = "LATEST"
 default[:corbel][:webfs][:classifier] = "bin"
 default[:corbel][:webfs][:deploy_to] = "/opt/corbel"
 
+default[:corbel][:evci][:type] = "tarball"
+default[:corbel][:evci][:artifact_id] = "evci"
+default[:corbel][:evci][:group_id] = "com.bq.oss.corbel"
+default[:corbel][:evci][:version] = "LATEST"
+default[:corbel][:evci][:classifier] = "bin"
+default[:corbel][:evci][:deploy_to] = "/opt/corbel"
+
 #JAVA defaults
 default[:java][:install_flavor] = "oracle"
 default[:java][:oracle][:accept_oracle_download_terms] = true

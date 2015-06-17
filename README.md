@@ -43,3 +43,15 @@ Include `corbel::webfs` in your node's `run_list`:
   ]
 }
 ```
+
+### corbel::evci
+
+Include `corbel::evci` in your node's `run_list`:
+
+```json
+{
+  "run_list": [
+    "recipe[corbel::evci]"
+  ]
+}
+```
