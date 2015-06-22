@@ -12,6 +12,9 @@ default[:corbel][:resources][:group_id] = "com.bq.oss.corbel"
 default[:corbel][:resources][:version] = "LATEST"
 default[:corbel][:resources][:classifier] = "bin"
 default[:corbel][:resources][:deploy_to] = "/opt/corbel"
+default[:corbel][:resources][:docker_image] = "corbel/resources"
+default[:corbel][:resources][:docker_link] = ["mongo:mongo", "redis:redis", "rabbitmq:rabbitmq"]
+default[:corbel][:resources][:docker_ports] = ['8080:8080', '8081:8081']
 
 default[:corbel][:webfs][:type] = "tarball"
 default[:corbel][:webfs][:artifact_id] = "webfs"

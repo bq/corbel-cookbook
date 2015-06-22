@@ -7,11 +7,7 @@ class Chef
 
       app = node[:corbel][name]
 
-      #Create deploy directory
-      directory app[:deploy_to] do
-        recursive true
-        action :create
-      end
+      setup_directory(app[:deploy_to])
 
       #Download the application package
       maven_deploy name do
@@ -47,16 +43,7 @@ class Chef
         notifies :restart, "supervisor_service[#{name}]" , :delayed
       end
 
-      #Install plugins
-      (app[:plugins] || []).each do | plugin_id, plugin_data |
-        maven_deploy plugin_id do
-          group_id plugin_data[:group_id]
-          artifact_id plugin_data[:artifact_id]
-          version plugin_data[:version]
-          deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
-					notifies :restart, "supervisor_service[#{name}]" , :delayed
-        end
-      end
+      install_plugins(app, name)
 
 			supervisor_service name do
   			action [:enable, :start]
@@ -66,7 +53,56 @@ class Chef
 			end
     end
 
-    def corbel_configure(name)
+    def setup_directory(dir)
+      #Create deploy directory
+      directory dir do
+        recursive true
+        action :create
+      end
+    end
+
+    def install_plugins(app, name)
+      #Install plugins
+      (app[:plugins] || []).each do | plugin_id, plugin_data |
+        maven_deploy plugin_id do
+          group_id plugin_data[:group_id]
+          artifact_id plugin_data[:artifact_id]
+          version plugin_data[:version]
+          deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
+          notifies :restart, "supervisor_service[#{name}]" , :delayed
+        end
+      end
+    end
+
+    def corbel_docker_install(name)
+      include_recipe "docker"
+
+      app = node[:corbel][name]
+      config_dir = "#{app[:deploy_to]}/#{name}/etc"
+
+      setup_directory(app[:deploy_to])
+      install_plugins(app, name)
+
+      docker_container name do
+        action :redeploy
+        image "#{app[:docker_image]}:#{app[:version]}"
+        detach true
+        force true
+        port app[:docker_ports]
+        volume ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins", "#{config_dir}/environment.properties:/#{name}/etc/environment.properties"]
+        link app[:docker_link]
+        retries 2
+      end
+      service name do 
+        action :nothing
+      end
+    end
+
+    def corbel_docker_configure(name)
+      corbel_configure(name, 'service')
+    end
+
+    def corbel_configure(name, service="supervisor_service")
 			app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
@@ -88,7 +124,7 @@ class Chef
         variables({
           :config => config
         })
-				notifies :restart, "supervisor_service[#{name}]" , :delayed
+				notifies :restart, "#{service}[#{name}]" , :delayed
       end
     end
 
