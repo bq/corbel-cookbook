@@ -3,7 +3,7 @@ driver:
   name: vagrant
 platforms:
   -
-    name: ubuntu-13.04
+    name: ubuntu-14.10
 provisioner:
   name: chef_solo
 suites:
@@ -61,9 +61,8 @@ suites:
   -
     attributes:
       corbel:
-        resources-docker:
-            type: "tarball"
-            version: "1.20.0-SNAPSHOT"
+        resources:
+          version: "1.20.0-SNAPSHOT"
     name: resources-docker
     run_list:
       - "recipe[corbel::resources-docker]"

@@ -83,9 +83,15 @@ class Chef
       setup_directory(app[:deploy_to])
       install_plugins(app, name)
 
+			docker_image app[:docker_image] do
+				tag "#{app[:version]}"
+				action :pull
+			end
+
       docker_container name do
-        action :redeploy
+        action :run
         image "#{app[:docker_image]}:#{app[:version]}"
+				container_name name
         detach true
         force true
         port app[:docker_ports]
@@ -93,7 +99,8 @@ class Chef
         link app[:docker_link]
         retries 2
       end
-      service name do 
+
+      service name do
         action :nothing
       end
     end
