@@ -5,6 +5,9 @@ default[:corbel][:iam][:group_id] = "com.bq.oss.corbel"
 default[:corbel][:iam][:version] = "LATEST"
 default[:corbel][:iam][:classifier] = "bin"
 default[:corbel][:iam][:deploy_to] = "/opt/corbel"
+default[:corbel][:iam][:docker_image] = "corbel/iam"
+default[:corbel][:iam][:docker_link] = ["mongo:mongo", "redis:redis", "rabbitmq:rabbitmq"]
+default[:corbel][:iam][:docker_ports] = ['8080:8082', '8081:8083']
 
 default[:corbel][:resources][:type] = "tarball"
 default[:corbel][:resources][:artifact_id] = "resources"
@@ -22,6 +25,10 @@ default[:corbel][:webfs][:group_id] = "com.bq.oss.corbel"
 default[:corbel][:webfs][:version] = "LATEST"
 default[:corbel][:webfs][:classifier] = "bin"
 default[:corbel][:webfs][:deploy_to] = "/opt/corbel"
+default[:corbel][:webfs][:docker_image] = "corbel/webfs"
+default[:corbel][:webfs][:docker_link] = ["mongo:mongo", "redis:redis", "rabbitmq:rabbitmq"]
+default[:corbel][:webfs][:docker_ports] = ['8080:8096', '8081:8097']
+
 
 default[:corbel][:evci][:type] = "tarball"
 default[:corbel][:evci][:artifact_id] = "evci"
@@ -29,6 +36,9 @@ default[:corbel][:evci][:group_id] = "com.bq.oss.corbel"
 default[:corbel][:evci][:version] = "LATEST"
 default[:corbel][:evci][:classifier] = "bin"
 default[:corbel][:evci][:deploy_to] = "/opt/corbel"
+default[:corbel][:evci][:docker_image] = "corbel/evci"
+default[:corbel][:evci][:docker_link] = ["mongo:mongo", "redis:redis", "rabbitmq:rabbitmq"]
+default[:corbel][:evci][:docker_ports] = ['8080:8096', '8081:8097']
 
 #JAVA defaults
 default[:java][:install_flavor] = "oracle"
