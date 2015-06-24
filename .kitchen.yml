@@ -3,7 +3,7 @@ driver:
   name: vagrant
 platforms:
   -
-    name: centos-7.0
+    name: ubuntu-14.10
 provisioner:
   name: chef_solo
 suites:
@@ -58,3 +58,11 @@ suites:
     name: resources-with-plugin
     run_list:
       - "recipe[corbel::resources]"
+  -
+    attributes:
+      corbel:
+        resources:
+          version: "1.20.0-SNAPSHOT"
+    name: resources-docker
+    run_list:
+      - "recipe[corbel::resources-docker]"
