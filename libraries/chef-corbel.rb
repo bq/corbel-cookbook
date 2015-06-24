@@ -219,7 +219,7 @@ class Chef
 
     def as_list(value)
       if value.is_a? String
-        value.split(',').each {|s| s.strip}
+        value.split(',').map {|s| s.strip}
       else
         value
       end
