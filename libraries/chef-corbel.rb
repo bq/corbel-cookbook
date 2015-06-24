@@ -83,6 +83,8 @@ class Chef
 
       app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
+      docker_port = as_list(app[:docker_ports])
+      docker_link = as_list(app[:docker_link])
 
       setup_directory(app[:deploy_to])
       install_plugins(app, name)
@@ -99,9 +101,9 @@ class Chef
         container_name name
         detach true
         force true
-        port app[:docker_ports]
+        port docker_port
         volume ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins", "#{config_dir}/environment.properties:/#{name}/etc/environment.properties"]
-        link app[:docker_link]
+        link docker_link
         retries 2
       end
 
@@ -212,6 +214,14 @@ class Chef
         cookbook cookbook unless cookbook.nil?
         source script
         mode 0755
+      end
+    end
+
+    def as_list(value)
+      if value.is_a? String
+        value.split(',')
+      else
+        value
       end
     end
   end
