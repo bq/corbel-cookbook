@@ -7,7 +7,7 @@ default[:corbel][:iam][:classifier] = "bin"
 default[:corbel][:iam][:deploy_to] = "/opt/corbel"
 default[:corbel][:iam][:docker_image] = "corbel/iam"
 default[:corbel][:iam][:docker_link] = "mongo:mongo, redis:redis, rabbitmq:rabbitmq"
-default[:corbel][:iam][:docker_ports] = "8080:8082, 8081:8083"
+default[:corbel][:iam][:docker_ports] = "8080:8082, 8083:8083"
 
 default[:corbel][:resources][:type] = "tarball"
 default[:corbel][:resources][:artifact_id] = "resources"
@@ -27,7 +27,7 @@ default[:corbel][:webfs][:classifier] = "bin"
 default[:corbel][:webfs][:deploy_to] = "/opt/corbel"
 default[:corbel][:webfs][:docker_image] = "corbel/webfs"
 default[:corbel][:webfs][:docker_link] = "mongo:mongo, redis:redis, rabbitmq:rabbitmq"
-default[:corbel][:webfs][:docker_ports] = "8080:8096, 8081:8097"
+default[:corbel][:webfs][:docker_ports] = "8096:8096, 8097:8097"
 
 
 default[:corbel][:evci][:type] = "tarball"
@@ -38,7 +38,7 @@ default[:corbel][:evci][:classifier] = "bin"
 default[:corbel][:evci][:deploy_to] = "/opt/corbel"
 default[:corbel][:evci][:docker_image] = "corbel/evci"
 default[:corbel][:evci][:docker_link] = "mongo:mongo, redis:redis, rabbitmq:rabbitmq"
-default[:corbel][:evci][:docker_ports] = "8080:8096, 8081:8097"
+default[:corbel][:evci][:docker_ports] = "8086:8086, 8087:8087"
 
 #JAVA defaults
 default[:java][:install_flavor] = "oracle"
