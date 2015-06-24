@@ -77,6 +77,10 @@ class Chef
     def corbel_docker_install(name)
       include_recipe 'docker'
 
+      if node['docker']['docker_daemon_timeout'] && node['docker']['docker_daemon_timeout'] < 1200
+        node.set['docker']['docker_daemon_timeout'] = 1200
+      end
+
       app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
@@ -89,7 +93,8 @@ class Chef
       end
 
       docker_container name do
-        action :run
+        action :redeploy
+        init_type false
         image "#{app[:docker_image]}:#{app[:version]}"
         container_name name
         detach true
