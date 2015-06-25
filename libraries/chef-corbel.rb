@@ -61,7 +61,11 @@ class Chef
       end
     end
 
-    def install_plugins(app, name)
+    def docker_install_plugins(app, name)
+      install_plugins(app, name, 'service')
+    end
+
+    def install_plugins(app, name, service = 'supervisor_service')
       # Install plugins
       (app[:plugins] || []).each do | plugin_id, plugin_data |
         maven_deploy plugin_id do
@@ -69,7 +73,7 @@ class Chef
           artifact_id plugin_data[:artifact_id]
           version plugin_data[:version]
           deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
-          notifies :restart, "supervisor_service[#{name}]", :delayed
+          notifies :restart, "#{service}[#{name}]", :delayed
         end
       end
     end
@@ -87,7 +91,7 @@ class Chef
       docker_link = as_list(app[:docker_link])
 
       setup_directory(app[:deploy_to])
-      install_plugins(app, name)
+      docker_install_plugins(app, name)
 
       docker_image app[:docker_image] do
         tag "#{app[:version]}"
