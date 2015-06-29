@@ -61,7 +61,11 @@ class Chef
       end
     end
 
-    def install_plugins(app, name)
+    def docker_install_plugins(app, name)
+      install_plugins(app, name, 'service')
+    end
+
+    def install_plugins(app, name, service = 'supervisor_service')
       # Install plugins
       (app[:plugins] || []).each do | plugin_id, plugin_data |
         maven_deploy plugin_id do
@@ -69,7 +73,7 @@ class Chef
           artifact_id plugin_data[:artifact_id]
           version plugin_data[:version]
           deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
-          notifies :restart, "supervisor_service[#{name}]", :delayed
+          notifies :restart, "#{service}[#{name}]", :delayed
         end
       end
     end
@@ -77,11 +81,17 @@ class Chef
     def corbel_docker_install(name)
       include_recipe 'docker'
 
+      if node['docker']['docker_daemon_timeout'] && node['docker']['docker_daemon_timeout'] < 1200
+        node.set['docker']['docker_daemon_timeout'] = 1200
+      end
+
       app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
+      docker_port = as_list(app[:docker_ports])
+      docker_link = as_list(app[:docker_link])
 
       setup_directory(app[:deploy_to])
-      install_plugins(app, name)
+      docker_install_plugins(app, name)
 
       docker_image app[:docker_image] do
         tag "#{app[:version]}"
@@ -89,14 +99,15 @@ class Chef
       end
 
       docker_container name do
-        action :run
+        action :redeploy
+        init_type false
         image "#{app[:docker_image]}:#{app[:version]}"
         container_name name
         detach true
         force true
-        port app[:docker_ports]
+        port docker_port
         volume ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins", "#{config_dir}/environment.properties:/#{name}/etc/environment.properties"]
-        link app[:docker_link]
+        link docker_link
         retries 2
       end
 
@@ -207,6 +218,14 @@ class Chef
         cookbook cookbook unless cookbook.nil?
         source script
         mode 0755
+      end
+    end
+
+    def as_list(value)
+      if value.is_a? String
+        value.split(',').map {|s| s.strip}
+      else
+        value
       end
     end
   end
