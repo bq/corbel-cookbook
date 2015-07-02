@@ -8,6 +8,7 @@ default[:corbel][:iam][:deploy_to] = "/opt/corbel"
 default[:corbel][:iam][:docker_image] = "corbel/iam"
 default[:corbel][:iam][:docker_link] = "mongo:mongo, redis:redis, rabbitmq:rabbitmq"
 default[:corbel][:iam][:docker_ports] = "8082:8082, 8083:8083"
+default[:corbel][:iam][:scripts] = ['scripts/iam/iam-scopes.groovy', 'scripts/iam/evci-scopes.groovy', 'scripts/iam/webfs-scopes.groovy', 'scripts/iam/composite-scopes.groovy']
 
 default[:corbel][:resources][:type] = "tarball"
 default[:corbel][:resources][:artifact_id] = "resources"
