@@ -185,6 +185,10 @@ class Chef
       end
     end
 
+    def corbel_docker_run_scripts(name)
+      corbel_run_scripts(name)
+    end
+
     def create_file(script_src, script_path)
       # Parsing the script_src. token is the current parsing token
       token = script_src
