@@ -102,14 +102,14 @@ class Chef
       end
 
       docker_container name do
-        action :redeploy
+        action [:redeploy, :start]
         init_type false
         image "#{app[:docker_image]}:#{app[:version]}"
         container_name name
         detach true
         force true
         port docker_port
-        volume ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins", "#{config_dir}/environment.properties:/#{name}/etc/environment.properties"]
+        volume ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins", "#{config_dir}/environment.properties:/#{name}/etc/environment.properties", "/tmp/#{name}:/tmp/#{name}"]
         link docker_link
         retries 2
       end
@@ -135,6 +135,7 @@ class Chef
         variables(
           config: log_config
         )
+        force_unlink true
       end
 
       config = app[:config]
@@ -145,6 +146,7 @@ class Chef
         variables(
           config: config
         )
+        force_unlink true
         notifies :restart, "#{service}[#{name}]", :delayed
       end
     end
@@ -161,23 +163,23 @@ class Chef
       end
     end
 
-    def corbel_run_scripts(name)
+    def corbel_run_scripts(name, cmd = "#{node[:corbel][name][:deploy_to]}/#{name}/bin/#{name}")
       scripts = (node[:corbel][name][:scripts] || [])
       script_paths = []
-
       scripts.each do | script |
-        script_path = "/tmp/#{name}/#{script}"
+        src = parse_script_src(script)
+        script_path = "/tmp/#{name}/#{src[:path]}"
         directory File.dirname(script_path) do
           recursive true
           action :create
         end
-        create_file(script, script_path)
+        create_file(src, script_path)
         script_paths << script_path
       end
 
       if scripts.any?
         execute "Running #{name} scripts: #{script_paths}" do
-          command "#{node[:corbel][name][:deploy_to]}/#{name}/bin/#{name} cli #{script_paths.join(' ')}"
+          command "#{cmd} cli #{script_paths.join(' ')}"
         end
 
         script_paths.each do | script_path |
@@ -189,27 +191,36 @@ class Chef
     end
 
     def corbel_docker_run_scripts(name)
-      corbel_run_scripts(name)
+      corbel_run_scripts(name, "docker exec #{name} /#{name}/bin/#{name}")
     end
 
-    def create_file(script_src, script_path)
+    def create_file(src, script_path)
+      src = src.is_a?(String) ? parse_script_src(src) : src
+      send(src[:protocol] + '_script', src[:cookbook], src[:path], script_path)
+    end
+
+    def parse_script_src(script_src)
       # Parsing the script_src. token is the current parsing token
       token = script_src
-      protocol = 'file'
-      cookbook = nil
+      script = Hash.new
+      script[:protocol] = 'file'
+      script[:cookbook] = nil
+
       # first try to parse the protocol
       parts = token.split('://')
       if parts.length == 2
-        protocol = parts[0]
+        script[:protocol] = parts[0]
         token = parts[1]
       end
       # Then try to parse the cookbook where the script is located
       parts = token.split(':')
       if parts.length == 2
-        cookbook = parts[0]
+        script[:cookbook] = parts[0]
         token = parts[1]
       end
-      send(protocol + '_script', cookbook, token, script_path)
+
+      script[:path] = token
+      script #return
     end
 
     def file_script(cookbook, script, script_path)
