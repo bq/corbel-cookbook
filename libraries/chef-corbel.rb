@@ -72,6 +72,8 @@ class Chef
           group_id plugin_data[:group_id]
           artifact_id plugin_data[:artifact_id]
           version plugin_data[:version]
+          classifier plugin_data[:classifier] if plugin_data[:classifier]
+          packaging plugin_data[:packaging] if plugin_data[:packaging]
           useMavenMetadata false if plugin_data[:style] == 'ivy'
           deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
           notifies :restart, "#{service}[#{name}]", :delayed
