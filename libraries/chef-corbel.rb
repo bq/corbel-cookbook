@@ -62,7 +62,7 @@ class Chef
     end
 
     def docker_install_plugins(app, name)
-      install_plugins(app, name, 'service')
+      install_plugins(app, name, 'docker_container')
     end
 
     def install_plugins(app, name, service = 'supervisor_service')
@@ -113,14 +113,10 @@ class Chef
         link docker_link
         retries 2
       end
-
-      service name do
-        action :nothing
-      end
     end
 
     def corbel_docker_configure(name)
-      corbel_configure(name, 'service')
+      corbel_configure(name, 'docker_container')
     end
 
     def corbel_configure(name, service = 'supervisor_service')
