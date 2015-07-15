@@ -123,13 +123,24 @@ class Chef
       app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
-      log_config = app[:log]
+      default_log_config = {
+        :file => {
+          :enabled => true,
+          :level => "INFO",
+          :currentLogFilename => "/var/log/silkroad/#{name}.log",
+          :archivedLogFilenamePattern => "/var/log/silkroad/#{name}-%d.log.gz"
+        },
+        :syslog => {
+          :enabled => true,
+          :level => "INFO"
+        }
+      }
+
       template "#{config_dir}/logback.xml" do
-        only_if { log_config }
         source 'logger/logback.xml.erb'
         mode 0444
         variables(
-          config: log_config
+          config: app[:log] || default_log_config
         )
         force_unlink true
       end
