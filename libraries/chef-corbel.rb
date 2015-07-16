@@ -123,26 +123,12 @@ class Chef
       app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
-      default_log_config = {
-        :file => {
-          :enabled => true,
-          :level => "INFO",
-          :currentLogFilename => "/var/log/silkroad/#{name}.log",
-          :archivedLogFilenamePattern => "/var/log/silkroad/#{name}-%d.log.gz"
-        },
-        :syslog => {
-          :enabled => true,
-          :level => "INFO"
-        }
-      }
-
       template "#{config_dir}/logback.xml" do
         source 'logger/logback.xml.erb'
         mode 0444
         variables(
-          config: app[:log] || default_log_config
+          config: app[:log]
         )
-        force_unlink true
       end
 
       config = app[:config]
@@ -153,7 +139,6 @@ class Chef
         variables(
           config: config
         )
-        force_unlink true
         notifies :restart, "#{service}[#{name}]", :delayed
       end
     end
