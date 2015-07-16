@@ -123,15 +123,12 @@ class Chef
       app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
-      log_config = app[:log]
       template "#{config_dir}/logback.xml" do
-        only_if { log_config }
         source 'logger/logback.xml.erb'
         mode 0444
         variables(
-          config: log_config
+          config: app[:log]
         )
-        force_unlink true
       end
 
       config = app[:config]
@@ -142,7 +139,6 @@ class Chef
         variables(
           config: config
         )
-        force_unlink true
         notifies :restart, "#{service}[#{name}]", :delayed
       end
     end
