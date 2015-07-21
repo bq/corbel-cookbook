@@ -105,10 +105,11 @@ class Chef
       docker_image app[:docker_image] do
         tag "#{app[:version]}"
         action :pull
+        notifies :redeploy, "docker_container[#{name}]", :immediately
       end
 
       docker_container name do
-        action [:redeploy, :start]
+        action [:run]
         init_type false
         image "#{app[:docker_image]}:#{app[:version]}"
         container_name name
