@@ -4,7 +4,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <file><%= @config[:file][:currentLogFilename] %></file>
       <encoder>
-        <pattern>%level [%date{ISO8601}] %thread %logger{35} - %msg%n</pattern>
+        <pattern>%level [%date{ISO8601}] %X{requestId} %logger{35} - %msg%n</pattern>
       </encoder>
       <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
         <level><%= @config[:file][:level] %></level>
@@ -23,7 +23,7 @@
       </filter>
       <syslogHost>localhost</syslogHost>
       <facility>USER</facility>
-      <suffixPattern>%level [%date{ISO8601}] %thread %logger{35} - %msg%n</suffixPattern>
+      <suffixPattern>%level [%date{ISO8601}] %X{requestId} %logger{35} - %msg%n</suffixPattern>
     </appender>
   <% end -%>
 
