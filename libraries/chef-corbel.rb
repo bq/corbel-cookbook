@@ -94,6 +94,12 @@ class Chef
       docker_link = as_list(app[:docker_link])
 
       setup_directory(app[:deploy_to])
+
+      #setup config file
+      file "#{config_dir}/environment.properties" do
+        action :create_if_missing
+      end
+
       docker_install_plugins(app, name)
 
       docker_image app[:docker_image] do
