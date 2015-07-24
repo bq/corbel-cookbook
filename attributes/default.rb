@@ -15,6 +15,7 @@ default[:corbel][:iam][:log][:file][:currentLogFilename] = "/var/log/silkroad/ia
 default[:corbel][:iam][:log][:file][:archivedLogFilenamePattern] = "/var/log/silkroad/iam-%d.log.gz"
 default[:corbel][:iam][:log][:syslog][:enabled] = true
 default[:corbel][:iam][:log][:syslog][:level] = "INFO"
+default[:corbel][:iam][:log][:root][:level] = "INFO"
 
 
 default[:corbel][:resources][:type] = "tarball"
@@ -32,6 +33,7 @@ default[:corbel][:resources][:log][:file][:currentLogFilename] = "/var/log/silkr
 default[:corbel][:resources][:log][:file][:archivedLogFilenamePattern] = "/var/log/silkroad/resources-%d.log.gz"
 default[:corbel][:resources][:log][:syslog][:enabled] = true
 default[:corbel][:resources][:log][:syslog][:level] = "INFO"
+default[:corbel][:resources][:log][:root][:level] = "INFO"
 
 
 default[:corbel][:webfs][:type] = "tarball"
@@ -49,6 +51,7 @@ default[:corbel][:webfs][:log][:file][:currentLogFilename] = "/var/log/silkroad/
 default[:corbel][:webfs][:log][:file][:archivedLogFilenamePattern] = "/var/log/silkroad/webfs-%d.log.gz"
 default[:corbel][:webfs][:log][:syslog][:enabled] = true
 default[:corbel][:webfs][:log][:syslog][:level] = "INFO"
+default[:corbel][:webfs][:log][:root][:level] = "INFO"
 
 default[:corbel][:evci][:type] = "tarball"
 default[:corbel][:evci][:artifact_id] = "evci"
@@ -65,6 +68,7 @@ default[:corbel][:evci][:log][:file][:currentLogFilename] = "/var/log/silkroad/e
 default[:corbel][:evci][:log][:file][:archivedLogFilenamePattern] = "/var/log/silkroad/evci-%d.log.gz"
 default[:corbel][:evci][:log][:syslog][:enabled] = true
 default[:corbel][:evci][:log][:syslog][:level] = "INFO"
+default[:corbel][:evci][:log][:root][:level] = "INFO"
 
 #JAVA defaults
 default[:java][:install_flavor] = "oracle"

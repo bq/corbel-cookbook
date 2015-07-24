@@ -99,6 +99,9 @@ class Chef
       file "#{config_dir}/environment.properties" do
         action :create_if_missing
       end
+      file "#{config_dir}/logback.xml" do
+        action :create_if_missing
+      end
 
       docker_install_plugins(app, name)
 
@@ -116,7 +119,10 @@ class Chef
         detach true
         force true
         port docker_port
-        volume ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins", "#{config_dir}/environment.properties:/#{name}/etc/environment.properties", "/tmp/#{name}:/tmp/#{name}"]
+        volume ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins",
+        "#{config_dir}/environment.properties:/#{name}/etc/environment.properties",
+        "/tmp/#{name}:/tmp/#{name}",
+        "#{config_dir}/logback.xml:/#{name}/etc/logback.xml"]
         link docker_link
         retries 2
       end

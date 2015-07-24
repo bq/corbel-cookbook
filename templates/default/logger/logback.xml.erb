@@ -27,7 +27,7 @@
     </appender>
   <% end -%>
 
-  <root level="ALL">
+  <root level="<%= @config[:root][:level] %>">
     <% if @config[:file][:enabled] -%>
       <appender-ref ref="FILE" />
     <% end -%>
