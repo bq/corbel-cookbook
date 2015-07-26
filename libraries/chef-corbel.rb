@@ -8,6 +8,7 @@ class Chef
       app = node[:corbel][name]
 
       setup_directory(app[:deploy_to])
+      setup_directory(config_dir)
 
       # Download the application package
       maven_deploy name do
@@ -94,6 +95,7 @@ class Chef
       docker_link = as_list(app[:docker_link])
 
       setup_directory(app[:deploy_to])
+      setup_directory(config_dir)
 
       #setup config file
       file "#{config_dir}/environment.properties" do
