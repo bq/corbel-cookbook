@@ -6,6 +6,7 @@ class Chef
       include_recipe 'java'
 
       app = node[:corbel][name]
+      config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
       setup_directory(app[:deploy_to])
       setup_directory(config_dir)
