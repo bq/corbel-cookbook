@@ -3,7 +3,7 @@ maintainer       'Alexander De Leon'
 maintainer_email 'alex.deleon@devialab.com'
 license          'MIT'
 description      'Installs/Configures Corbel platform'
-version          '0.1.6'
+version          '0.1.7'
 
 depends 'tar'
 depends 'java'
