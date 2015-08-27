@@ -27,11 +27,13 @@
     </appender>
   <% end -%>
 
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <pattern>%level [%date{ISO8601}] %X{requestId} %logger{35} - %msg%n</pattern>
-    </encoder>
-  </appender>
+  <% if @config[:console][:enabled] -%>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>%level [%date{ISO8601}] %X{requestId} %logger{35} - %msg%n</pattern>
+      </encoder>
+    </appender>
+  <% end -%>
 
   <root level="<%= @config[:root][:level] %>">
     <% if @config[:file][:enabled] -%>
@@ -40,7 +42,9 @@
     <% if @config[:syslog][:enabled] -%>
       <appender-ref ref="SYSLOG" />
     <% end -%>
-    <appender-ref ref="STDOUT" />
+    <% if @config[:console][:enabled] -%>
+      <appender-ref ref="STDOUT" />
+    <% end -%>
   </root>
 
 </configuration>
