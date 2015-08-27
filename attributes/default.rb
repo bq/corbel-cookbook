@@ -78,3 +78,6 @@ default[:corbel][:evci][:log][:root][:level] = "INFO"
 default[:java][:install_flavor] = "oracle"
 default[:java][:oracle][:accept_oracle_download_terms] = true
 default[:java][:jdk_version] = "8"
+
+#Service console scripts launch by default
+default[:cli][:launch_scripts] = true
