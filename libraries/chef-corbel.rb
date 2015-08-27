@@ -172,29 +172,33 @@ class Chef
     end
 
     def corbel_run_scripts(name, cmd = "#{node[:corbel][name][:deploy_to]}/#{name}/bin/#{name}")
-      scripts = (node[:corbel][name][:scripts] || [])
-      script_paths = []
-      scripts.each do | script |
-        src = parse_script_src(script)
-        script_path = "/tmp/#{name}/#{src[:path]}"
-        directory File.dirname(script_path) do
-          recursive true
-          action :create
-        end
-        create_file(src, script_path)
-        script_paths << script_path
-      end
-
-      if scripts.any?
-        execute "Running #{name} scripts: #{script_paths}" do
-          command "#{cmd} cli #{script_paths.join(' ')}"
+      if node[:cli][:launch_scripts]
+        scripts = (node[:corbel][name][:scripts] || [])
+        script_paths = []
+        scripts.each do | script |
+          src = parse_script_src(script)
+          script_path = "/tmp/#{name}/#{src[:path]}"
+          directory File.dirname(script_path) do
+            recursive true
+            action :create
+          end
+          create_file(src, script_path)
+          script_paths << script_path
         end
 
-        script_paths.each do | script_path |
-          file script_path do
-            action :delete
+        if scripts.any?
+          execute "Running #{name} scripts: #{script_paths}" do
+            command "#{cmd} cli #{script_paths.join(' ')}"
+          end
+
+          script_paths.each do | script_path |
+            file script_path do
+              action :delete
+            end
           end
         end
+      else
+        Chef::Log.info("Skip launch scripts!")
       end
     end
 
