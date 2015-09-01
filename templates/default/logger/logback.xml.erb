@@ -17,13 +17,19 @@
   <% end -%>
 
   <% if @config[:syslog][:enabled] -%>
-    <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+    <appender name="SYSLOG" class="com.papertrailapp.logback.Syslog4jAppender">
+      <layout class="ch.qos.logback.classic.PatternLayout">
+        <pattern>%level [%date{ISO8601}] %X{requestId} %logger{35} - %msg%n</pattern>
+      </layout>
       <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
         <level><%= @config[:syslog][:level] %></level>
       </filter>
-      <syslogHost>localhost</syslogHost>
-      <facility>USER</facility>
-      <suffixPattern>%level [%date{ISO8601}] %X{requestId} %logger{35} - %msg%n</suffixPattern>
+      <syslogConfig class="org.productivity.java.syslog4j.impl.net.tcp.TCPNetSyslogConfig">
+  			<host><%= @config[:syslog][:host] %></host>
+  			<port><%= @config[:syslog][:port] %></port>
+  			<ident><%= @config[:syslog][:ident] %></ident>
+  			<maxMessageLength><%= @config[:syslog][:maxMessageLength] %></maxMessageLength>
+  		</syslogConfig>
     </appender>
   <% end -%>
 
