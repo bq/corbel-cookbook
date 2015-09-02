@@ -84,7 +84,9 @@ class Chef
     end
 
     def corbel_docker_install(name)
-      include_recipe 'docker'
+      docker_service 'default' do
+        action [:create, :start]
+      end
 
       if node['docker']['docker_daemon_timeout'] && node['docker']['docker_daemon_timeout'] < 1200
         node.set['docker']['docker_daemon_timeout'] = 1200
@@ -115,18 +117,16 @@ class Chef
       end
 
       docker_container name do
-        action [:run]
-        init_type false
         image "#{app[:docker_image]}:#{app[:version]}"
         container_name name
         detach true
         force true
         port docker_port
-        volume ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins",
+        volumes ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins",
         "#{config_dir}/environment.properties:/#{name}/etc/environment.properties",
         "/tmp/#{name}:/tmp/#{name}",
         "#{config_dir}/logback.xml:/#{name}/etc/logback.xml"]
-        link docker_link
+        links docker_link
         retries 2
       end
     end
