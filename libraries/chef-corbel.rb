@@ -122,7 +122,7 @@ class Chef
         detach true
         force true
         port docker_port
-        volumes ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins",
+        binds ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins",
         "#{config_dir}/environment.properties:/#{name}/etc/environment.properties",
         "/tmp/#{name}:/tmp/#{name}",
         "#{config_dir}/logback.xml:/#{name}/etc/logback.xml"]
