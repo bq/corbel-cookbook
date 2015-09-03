@@ -117,7 +117,8 @@ class Chef
       end
 
       docker_container name do
-        image "#{app[:docker_image]}:#{app[:version]}"
+        image "#{app[:docker_image]}"
+        tag "#{app[:version]}"
         container_name name
         detach true
         force true
