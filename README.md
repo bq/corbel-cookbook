@@ -55,3 +55,15 @@ Include `corbel::evci` in your node's `run_list`:
   ]
 }
 ```
+
+### corbel::oauth
+
+Include `corbel::oauth` in your node's `run_list`:
+
+```json
+{
+  "run_list": [
+    "recipe[corbel::oauth]"
+  ]
+}
+```
