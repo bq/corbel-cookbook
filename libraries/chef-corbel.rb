@@ -52,7 +52,7 @@ class Chef
         autostart true
         user app[:owner] if app[:owner]
         environment ({
-          'JAVA_OPTS' => app[:jvmArguments]
+          'JAVA_OPTS' => app[:jvm_arguments]
         })
         command "#{app[:deploy_to]}/#{name}/bin/#{name} server"
       end
@@ -123,7 +123,7 @@ class Chef
         image "#{app[:docker_image]}"
         tag "#{app[:version]}"
         container_name name
-        env ["JAVA_OPTS=#{app[:jvmArguments]}"]
+        env ["JAVA_OPTS=#{app[:jvm_arguments]}"]
         detach true
         force true
         port docker_port
