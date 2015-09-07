@@ -21,7 +21,7 @@ default[:corbel][:iam][:log][:syslog][:host] = "localhost"
 default[:corbel][:iam][:log][:syslog][:port] = 10514
 default[:corbel][:iam][:log][:syslog][:ident] = "iam"
 default[:corbel][:iam][:log][:syslog][:maxMessageLength] = "128000"
-default[:corbel][:iam][:jvm_arguments] = "-Xms=128m -Xmx=256m"
+default[:corbel][:iam][:jvm_arguments] = "-Xms128m -Xmx256m"
 
 
 default[:corbel][:resources][:type] = "tarball"
@@ -45,7 +45,7 @@ default[:corbel][:resources][:log][:syslog][:host] = "localhost"
 default[:corbel][:resources][:log][:syslog][:port] = 10514
 default[:corbel][:resources][:log][:syslog][:ident] = "resources"
 default[:corbel][:resources][:log][:syslog][:maxMessageLength] = "128000"
-default[:corbel][:resources][:jvm_arguments] = "-Xms=128m -Xmx=512m"
+default[:corbel][:resources][:jvm_arguments] = "-Xms128m -Xmx512m"
 
 
 default[:corbel][:webfs][:type] = "tarball"
@@ -69,7 +69,7 @@ default[:corbel][:webfs][:log][:syslog][:host] = "localhost"
 default[:corbel][:webfs][:log][:syslog][:port] = 10514
 default[:corbel][:webfs][:log][:syslog][:ident] = "webfs"
 default[:corbel][:webfs][:log][:syslog][:maxMessageLength] = "128000"
-default[:corbel][:webfs][:jvm_arguments] = "-Xms=64m -Xmx=256m"
+default[:corbel][:webfs][:jvm_arguments] = "-Xms64m -Xmx256m"
 
 
 default[:corbel][:evci][:type] = "tarball"
@@ -93,7 +93,7 @@ default[:corbel][:evci][:log][:syslog][:host] = "localhost"
 default[:corbel][:evci][:log][:syslog][:port] = 10514
 default[:corbel][:evci][:log][:syslog][:ident] = "evci"
 default[:corbel][:evci][:log][:syslog][:maxMessageLength] = "128000"
-default[:corbel][:evci][:jvm_arguments] = "-Xms=128m -Xmx=512m"
+default[:corbel][:evci][:jvm_arguments] = "-Xms128m -Xmx512m"
 
 default[:corbel][:oauth][:type] = "tarball"
 default[:corbel][:oauth][:artifact_id] = "oauth-server"
@@ -116,7 +116,7 @@ default[:corbel][:oauth][:log][:syslog][:host] = "localhost"
 default[:corbel][:oauth][:log][:syslog][:port] = 10514
 default[:corbel][:oauth][:log][:syslog][:ident] = "oauth-server"
 default[:corbel][:oauth][:log][:syslog][:maxMessageLength] = "128000"
-default[:corbel][:oauth][:jvm_arguments] = "-Xms=128m -Xmx=256m"
+default[:corbel][:oauth][:jvm_arguments] = "-Xms128m -Xmx256m"
 
 #JAVA defaults
 default[:java][:install_flavor] = "oracle"
