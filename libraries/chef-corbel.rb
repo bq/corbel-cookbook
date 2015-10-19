@@ -51,6 +51,9 @@ class Chef
         action [:enable, :start]
         autostart true
         user app[:owner] if app[:owner]
+        environment ({
+          'JAVA_OPTS' => app[:jvm_arguments]
+        })
         command "#{app[:deploy_to]}/#{name}/bin/#{name} server"
       end
    end
@@ -88,7 +91,7 @@ class Chef
         action [:create, :start]
       end
 
-      if node['docker']['docker_daemon_timeout'] && node['docker']['docker_daemon_timeout'] < 1200
+      if node['docker'] && node['docker']['docker_daemon_timeout'] && node['docker']['docker_daemon_timeout'] < 1200
         node.set['docker']['docker_daemon_timeout'] = 1200
       end
 
@@ -120,6 +123,7 @@ class Chef
         image "#{app[:docker_image]}"
         tag "#{app[:version]}"
         container_name name
+        env ["JAVA_OPTS=#{app[:jvm_arguments]}"]
         detach true
         force true
         port docker_port
