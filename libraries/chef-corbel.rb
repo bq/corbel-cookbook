@@ -1,7 +1,7 @@
 class Chef
   module Corbel
     # A shortcut to a customer
-    def corbel_install(name)
+    def corbel_install(name, binary = name)
       include_recipe 'supervisor'
       include_recipe 'java'
 
@@ -42,10 +42,10 @@ class Chef
           group app[:group]
         end
 
-        notifies :restart, "supervisor_service[#{name}]", :delayed
+        notifies :restart, "supervisor_service[#{binary}]", :delayed
       end
 
-      install_plugins(app, name)
+      install_plugins(app, name, binary)
 
       supervisor_service name do
         action [:enable, :start]
@@ -54,7 +54,7 @@ class Chef
         environment ({
           'JAVA_OPTS' => app[:jvm_arguments]
         })
-        command "#{app[:deploy_to]}/#{name}/bin/#{name} server"
+        command "#{app[:deploy_to]}/#{name}/bin/#{binary} server"
       end
    end
 
@@ -66,11 +66,11 @@ class Chef
       end
     end
 
-    def docker_install_plugins(app, name)
-      install_plugins(app, name, 'docker_container')
+    def docker_install_plugins(app, name, binary = name)
+      install_plugins(app, name, binary, 'docker_container')
     end
 
-    def install_plugins(app, name, service = 'supervisor_service')
+    def install_plugins(app, name, binary, service = 'supervisor_service')
       # Install plugins
       (app[:plugins] || []).each do | plugin_id, plugin_data |
         maven_deploy plugin_id do
@@ -81,7 +81,7 @@ class Chef
           packaging plugin_data[:packaging] if plugin_data[:packaging]
           useMavenMetadata false if plugin_data[:style] == 'ivy'
           deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
-          notifies :restart, "#{service}[#{name}]", :delayed
+          notifies :restart, "#{service}[#{binary}]", :delayed
         end
       end
     end
@@ -136,11 +136,11 @@ class Chef
       end
     end
 
-    def corbel_docker_configure(name)
-      corbel_configure(name, 'docker_container')
+    def corbel_docker_configure(name, binary = name)
+      corbel_configure(name, binary, 'docker_container')
     end
 
-    def corbel_configure(name, service = 'supervisor_service')
+    def corbel_configure(name, binary = name, service = 'supervisor_service')
       app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
@@ -160,7 +160,7 @@ class Chef
         variables(
           config: config
         )
-        notifies :restart, "#{service}[#{name}]", :delayed
+        notifies :restart, "#{service}[#{binary}]", :delayed
       end
     end
 
@@ -176,7 +176,7 @@ class Chef
       end
     end
 
-    def corbel_run_scripts(name, cmd = "#{node[:corbel][name][:deploy_to]}/#{name}/bin/#{name}")
+    def corbel_run_scripts(name, binary = name, cmd = "#{node[:corbel][name][:deploy_to]}/#{name}/bin/#{binary}")
       if node[:cli][:launch_scripts]
         scripts = (node[:corbel][name][:scripts] || [])
         script_paths = []
@@ -207,8 +207,8 @@ class Chef
       end
     end
 
-    def corbel_docker_run_scripts(name)
-      corbel_run_scripts(name, "docker exec #{name} /#{name}/bin/#{name}")
+    def corbel_docker_run_scripts(name, binary = name)
+      corbel_run_scripts(name, binary, "docker exec #{name} /#{name}/bin/#{binary}")
     end
 
     def create_file(src, script_path)
