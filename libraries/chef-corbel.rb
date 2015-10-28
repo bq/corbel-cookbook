@@ -42,10 +42,10 @@ class Chef
           group app[:group]
         end
 
-        notifies :restart, "supervisor_service[#{binary}]", :delayed
+        notifies :restart, "supervisor_service[#{name}]", :delayed
       end
 
-      install_plugins(app, name, binary)
+      install_plugins(app, name)
 
       supervisor_service name do
         action [:enable, :start]
@@ -66,11 +66,11 @@ class Chef
       end
     end
 
-    def docker_install_plugins(app, name, binary = name)
-      install_plugins(app, name, binary, 'docker_container')
+    def docker_install_plugins(app, name)
+      install_plugins(app, name, 'docker_container')
     end
 
-    def install_plugins(app, name, binary, service = 'supervisor_service')
+    def install_plugins(app, name, service = 'supervisor_service')
       # Install plugins
       (app[:plugins] || []).each do | plugin_id, plugin_data |
         maven_deploy plugin_id do
@@ -81,7 +81,7 @@ class Chef
           packaging plugin_data[:packaging] if plugin_data[:packaging]
           useMavenMetadata false if plugin_data[:style] == 'ivy'
           deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
-          notifies :restart, "#{service}[#{binary}]", :delayed
+          notifies :restart, "#{service}[#{name}]", :delayed
         end
       end
     end
@@ -136,11 +136,11 @@ class Chef
       end
     end
 
-    def corbel_docker_configure(name, binary = name)
-      corbel_configure(name, binary, 'docker_container')
+    def corbel_docker_configure(name)
+      corbel_configure(name, 'docker_container')
     end
 
-    def corbel_configure(name, binary = name, service = 'supervisor_service')
+    def corbel_configure(name, service = 'supervisor_service')
       app = node[:corbel][name]
       config_dir = "#{app[:deploy_to]}/#{name}/etc"
 
@@ -160,7 +160,7 @@ class Chef
         variables(
           config: config
         )
-        notifies :restart, "#{service}[#{binary}]", :delayed
+        notifies :restart, "#{service}[#{name}]", :delayed
       end
     end
 
