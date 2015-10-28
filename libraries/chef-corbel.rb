@@ -33,7 +33,8 @@ class Chef
       # Extract the application
       tar_extract "#{app[:deploy_to]}/#{name}.tar.gz" do
         action :nothing
-        target_dir "#{app[:deploy_to]}"
+        tar_flags [ '--strip-components 1' ]
+        target_dir "#{app[:deploy_to]}/#{name}"
         creates "#{app[:deploy_to]}/#{name}/bin"
         if app.key?(:owner)
           owner app[:owner]
