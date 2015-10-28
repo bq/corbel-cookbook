@@ -7,8 +7,8 @@ version          '0.4.0'
 
 depends 'tar'
 depends 'java'
+depends 'docker'
 depends 'maven_deploy'
 depends 'supervisor'
-depends 'docker'
 
 supports 'centOS'
