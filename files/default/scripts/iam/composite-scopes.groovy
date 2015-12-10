@@ -1,4 +1,4 @@
-iam.createCompositeScope('iam:comp:base',   'iam:user:create', 'iam:user:me', 'iam:username:availability', 'iam:user:profile', 'iam:user:resetpassword', 'iam:user:device')
+iam.createCompositeScope('iam:comp:base',   'iam:user:create', 'iam:user:me', 'iam:username:availability', 'iam:email:availability','iam:user:profile', 'iam:user:resetpassword', 'iam:user:device')
 iam.createCompositeScope('iam:comp:admin',  'iam:comp:base', 'iam:user:delete', 'iam:user:read', 'iam:user:edit', 'iam:identity:admin', 'iam:user:disconnect:admin', 'iam:user:device:admin')
 iam.createCompositeScope('iam:comp:root',   'iam:comp:admin', 'iam:domain:root', 'iam:client:root', 'iam:scope:root')
 

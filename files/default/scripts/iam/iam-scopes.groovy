@@ -6,6 +6,8 @@ iam.createScope('iam:user:create','http://iam.corbel.io', [ 	mediaTypes : [ 	"ap
 
 iam.createScope('iam:username:availability','http://iam.corbel.io', [	mediaTypes : [ 	"application/json" ], 	"methods" : [ "HEAD" ], 	"type" : "http_access", 	"uri" : "username/[\\w\\-@.]+"])
 
+iam.createScope('iam:email:availability','http://iam.corbel.io', [	mediaTypes : [ 	"application/json" ], 	"methods" : [ "GET", "HEAD" ], 	"type" : "http_access", 	"uri" : "email/[\\w\\-@.]+"])
+
 iam.createScope('iam:user:profile','http://iam.corbel.io', [	mediaTypes : [ 	"application/json" ], 	"methods" : [ "GET" ], 	"type" : "http_access", 	"uri" : "user/\\w+/profile/?", tokenType: "user"])
 
 iam.createScope('iam:user:resetpassword','http://iam.corbel.io', [	mediaTypes : [ 	"application/json" ], 	"methods" : [ "GET" ], 	"type" : "http_access", 	"uri" : "user/resetPassword"])
