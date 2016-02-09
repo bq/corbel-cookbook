@@ -1,9 +1,9 @@
 name             'corbel'
-maintainer       'Alexander De Leon'
-maintainer_email 'alex.deleon@devialab.com'
+maintainer       'Corbel Development Team'
+maintainer_email 'dev@corbel.io'
 license          'MIT'
 description      'Installs/Configures Corbel platform'
-version          '0.4.1'
+version          '0.5.0'
 
 depends 'tar'
 depends 'java'

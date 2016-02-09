@@ -8,7 +8,7 @@ default[:corbel][:iam][:deploy_to] = "/opt/corbel"
 default[:corbel][:iam][:docker_image] = "corbel/iam"
 default[:corbel][:iam][:docker_link] = "mongo:mongo, redis:redis, rabbitmq:rabbitmq"
 default[:corbel][:iam][:docker_ports] = "8082:8082, 8083:8083"
-default[:corbel][:iam][:scripts] = ['scripts/iam/iam-scopes.groovy', 'scripts/iam/evci-scopes.groovy', 'scripts/iam/webfs-scopes.groovy', 'scripts/iam/composite-scopes.groovy']
+default[:corbel][:iam][:scripts] = ['scripts/iam/iam-scopes.groovy', 'scripts/iam/evci-scopes.groovy', 'scripts/iam/webfs-scopes.groovy', 'scripts/iam/notifications-scopes.groovy', 'scripts/iam/composite-scopes.groovy']
 default[:corbel][:iam][:log][:root][:level] = "INFO"
 default[:corbel][:iam][:log][:console][:enabled] = true
 default[:corbel][:iam][:log][:file][:enabled] = false
@@ -118,6 +118,30 @@ default[:corbel]['oauth-server'][:log][:syslog][:port] = 10514
 default[:corbel]['oauth-server'][:log][:syslog][:ident] = "oauth-server"
 default[:corbel]['oauth-server'][:log][:syslog][:maxMessageLength] = "128000"
 default[:corbel]['oauth-server'][:jvm_arguments] = "-Xms128m -Xmx256m"
+
+
+default[:corbel][:notifications][:type] = "tarball"
+default[:corbel][:notifications][:artifact_id] = "notifications"
+default[:corbel][:notifications][:group_id] = "io.corbel"
+default[:corbel][:notifications][:version] = "LATEST"
+default[:corbel][:notifications][:classifier] = "bin"
+default[:corbel][:notifications][:deploy_to] = "/opt/corbel"
+default[:corbel][:notifications][:docker_image] = "corbel/notifications"
+default[:corbel][:notifications][:docker_link] = "mongo:mongo, redis:redis, rabbitmq:rabbitmq"
+default[:corbel][:notifications][:docker_ports] = "8094:8094, 8095:8095"
+default[:corbel][:notifications][:log][:root][:level] = "INFO"
+default[:corbel][:notifications][:log][:console][:enabled] = true
+default[:corbel][:notifications][:log][:file][:enabled] = false
+default[:corbel][:notifications][:log][:file][:level] = "INFO"
+default[:corbel][:notifications][:log][:file][:currentLogFilename] = "/var/log/corbel/notifications.log"
+default[:corbel][:notifications][:log][:file][:archivedLogFilenamePattern] = "/var/log/corbel/notifications-%d.log.gz"
+default[:corbel][:notifications][:log][:syslog][:enabled] = false
+default[:corbel][:notifications][:log][:syslog][:level] = "INFO"
+default[:corbel][:notifications][:log][:syslog][:host] = "localhost"
+default[:corbel][:notifications][:log][:syslog][:port] = 10514
+default[:corbel][:notifications][:log][:syslog][:ident] = "notifications"
+default[:corbel][:notifications][:log][:syslog][:maxMessageLength] = "128000"
+default[:corbel][:notifications][:jvm_arguments] = "-Xms128m -Xmx512m"
 
 #JAVA defaults
 default[:java][:install_flavor] = "oracle"

@@ -67,3 +67,15 @@ Include `corbel::oauth-server` in your node's `run_list`:
   ]
 }
 ```
+
+### corbel::notifications
+
+Include `corbel::notifications` in your node's `run_list`:
+
+```json
+{
+  "run_list": [
+    "recipe[corbel::notifications]"
+  ]
+}
+```
