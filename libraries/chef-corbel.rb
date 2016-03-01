@@ -75,16 +75,16 @@ class Chef
         docker_image plugin_data[:docker_image] do
           tag "#{plugin_data[:version]}"
           action :pull
-          notifies :redeploy, "docker_container[#{name}]", :immediately
         end
 
         docker_container plugin do
           image "#{plugin_data[:docker_image]}"
           tag "#{plugin_data[:version]}"
-          container_name name
-          detach true
-          force true
+          command 'true'
+          container_name plugin
           retries 2
+          action :create
+          notifies :redeploy, "docker_container[#{name}]", :delayed
         end
       end
     end
@@ -153,6 +153,7 @@ class Chef
         "#{config_dir}/logback.xml:/#{name}/etc/logback.xml"]
         links docker_link
         retries 2
+        action :nothing if app[:docker_plugins]
       end
     end
 
