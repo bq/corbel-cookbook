@@ -100,7 +100,8 @@ class Chef
           packaging plugin_data[:packaging] if plugin_data[:packaging]
           useMavenMetadata false if plugin_data[:style] == 'ivy'
           deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
-          notifies :restart, "#{service}[#{name}]", :delayed
+          notifies :delete, "#{service}[#{name}]", :delayed
+          notifies :run, "#{service}[#{name}]", :delayed
         end
       end
     end
@@ -153,7 +154,7 @@ class Chef
         "#{config_dir}/logback.xml:/#{name}/etc/logback.xml"]
         links docker_link
         retries 2
-        action :nothing if app[:docker_plugins]
+        action :run_if_missing
       end
     end
 
