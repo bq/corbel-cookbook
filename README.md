@@ -1,6 +1,6 @@
 # corbel-cookbook
 
-Chef cookbok to install and configure [Corbel](https://github.com/corbel-platform/corbel) platform.
+Chef cookbok to install and configure [Corbel](https://github.com/bq/corbel) platform.
 
 
 ## Attributes
