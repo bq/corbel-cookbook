@@ -1,0 +1,46 @@
+{
+  "name": "bqcorbel",
+  "description": "Installs/Configures Corbel platform",
+  "long_description": "",
+  "maintainer": "Corbel Development Team",
+  "maintainer_email": "corbel-dev@bq.com",
+  "license": "MIT",
+  "platforms": {
+    "centOS": ">= 0.0.0"
+  },
+  "dependencies": {
+    "tar": ">= 0.0.0",
+    "java": ">= 0.0.0",
+    "docker": ">= 0.0.0",
+    "maven_deploy": ">= 0.0.0",
+    "supervisor": ">= 0.0.0"
+  },
+  "recommendations": {
+
+  },
+  "suggestions": {
+
+  },
+  "conflicting": {
+
+  },
+  "providing": {
+
+  },
+  "replacing": {
+
+  },
+  "attributes": {
+
+  },
+  "groupings": {
+
+  },
+  "recipes": {
+
+  },
+  "version": "0.5.5",
+  "source_url": "",
+  "issues_url": "",
+  "privacy": false
+}

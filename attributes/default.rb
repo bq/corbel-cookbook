@@ -143,21 +143,6 @@ default[:corbel][:notifications][:log][:syslog][:ident] = "notifications"
 default[:corbel][:notifications][:log][:syslog][:maxMessageLength] = "128000"
 default[:corbel][:notifications][:jvm_arguments] = "-Xms128m -Xmx512m"
 
-default[:corbel][:resmi][:docker_image] = "corbel/resmi"
-default[:corbel][:resmi][:version] = "LATEST"
-
-default[:corbel][:restor][:docker_image] = "corbel/restor"
-default[:corbel][:restor][:version] = "LATEST"
-
-default[:corbel][:rem_acl][:docker_image] = "corbel/rem-acl"
-default[:corbel][:rem_acl][:version] = "LATEST"
-
-default[:corbel][:rem_image][:docker_image] = "corbel/rem-image"
-default[:corbel][:rem_image][:version] = "LATEST"
-
-default[:corbel][:i18n][:docker_image] = "corbel/i18n"
-default[:corbel][:i18n][:version] = "LATEST"
-
 #JAVA defaults
 default[:java][:install_flavor] = "oracle"
 default[:java][:oracle][:accept_oracle_download_terms] = true

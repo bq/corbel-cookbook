@@ -69,24 +69,6 @@ class Chef
 
     def docker_install_plugins(app, name)
       install_plugins(app, name, 'docker_container')
-      (app[:docker_plugins] || []).each do | plugin |
-        plugin_data = node[:corbel][plugin]
-
-        docker_image plugin_data[:docker_image] do
-          tag "#{plugin_data[:version]}"
-          action :pull
-        end
-
-        docker_container plugin do
-          image "#{plugin_data[:docker_image]}"
-          tag "#{plugin_data[:version]}"
-          command 'true'
-          container_name plugin
-          retries 2
-          action :create
-          notifies :redeploy, "docker_container[#{name}]", :delayed
-        end
-      end
     end
 
     def install_plugins(app, name, service = 'supervisor_service')
@@ -100,8 +82,7 @@ class Chef
           packaging plugin_data[:packaging] if plugin_data[:packaging]
           useMavenMetadata false if plugin_data[:style] == 'ivy'
           deploy_to "#{app[:deploy_to]}/#{name}/plugins/#{plugin_id}.jar"
-          notifies :delete, "#{service}[#{name}]", :delayed
-          notifies :run, "#{service}[#{name}]", :delayed
+          notifies :restart, "#{service}[#{name}]", :delayed
         end
       end
     end
@@ -147,14 +128,12 @@ class Chef
         detach true
         force true
         port docker_port
-        volumes_from app[:docker_plugins] if app[:docker_plugins]
         binds ["#{app[:deploy_to]}/#{name}/plugins:/#{name}/plugins",
         "#{config_dir}/environment.properties:/#{name}/etc/environment.properties",
         "/tmp/#{name}:/tmp/#{name}",
         "#{config_dir}/logback.xml:/#{name}/etc/logback.xml"]
         links docker_link
         retries 2
-        action :run_if_missing
       end
     end
 

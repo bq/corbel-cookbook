@@ -1,4 +1,4 @@
-# corbel-cookbook
+# corbel-cookbook 
 
 Chef cookbok to install and configure [Corbel](https://github.com/bq/corbel) platform.
 
@@ -15,7 +15,7 @@ Include `corbel::iam` in your node's `run_list`:
 ```json
 {
   "run_list": [
-    "recipe[corbel::iam]"
+    "recipe[bqcorbel::iam]"
   ]
 }
 ```
@@ -27,7 +27,7 @@ Include `corbel::resources` in your node's `run_list`:
 ```json
 {
   "run_list": [
-    "recipe[corbel::resources]"
+    "recipe[bqcorbel::resources]"
   ]
 }
 ```
@@ -39,7 +39,7 @@ Include `corbel::webfs` in your node's `run_list`:
 ```json
 {
   "run_list": [
-    "recipe[corbel::webfs]"
+    "recipe[bqcorbel::webfs]"
   ]
 }
 ```
@@ -51,7 +51,7 @@ Include `corbel::evci` in your node's `run_list`:
 ```json
 {
   "run_list": [
-    "recipe[corbel::evci]"
+    "recipe[bqcorbel::evci]"
   ]
 }
 ```
@@ -63,7 +63,7 @@ Include `corbel::oauth-server` in your node's `run_list`:
 ```json
 {
   "run_list": [
-    "recipe[corbel::oauth-server]"
+    "recipe[bqcorbel::oauth-server]"
   ]
 }
 ```
@@ -75,7 +75,7 @@ Include `corbel::notifications` in your node's `run_list`:
 ```json
 {
   "run_list": [
-    "recipe[corbel::notifications]"
+    "recipe[bqcorbel::notifications]"
   ]
 }
 ```
