@@ -3,7 +3,7 @@ maintainer       'Corbel Development Team'
 maintainer_email 'corbel-dev@bq.com'
 license          'MIT'
 description      'Installs/Configures Corbel platform'
-version          '0.5.5'
+version          '0.5.0'
 
 depends 'tar'
 depends 'java'
